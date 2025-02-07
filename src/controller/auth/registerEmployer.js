@@ -24,9 +24,13 @@ const registerEmployer = async (req, res) => {
   });
 
   // JWT oluştur
-  const token = jwt.sign({ id: user.id, role: "employer" }, process.env.JWT_SECRET, {
-    expiresIn: "1h",
-  });
+  const token = jwt.sign(
+    { id: user.id, role: "employer" },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: "1h",
+    }
+  );
 
   res.json({ token, employer });
 };

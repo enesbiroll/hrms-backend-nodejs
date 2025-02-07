@@ -29,7 +29,9 @@ JobAdverts.belongsTo(Cities, { foreignKey: "city_id" });
 JobAdverts.belongsTo(Employers, { foreignKey: "employer_id" });
 JobAdverts.belongsTo(JobPositions, { foreignKey: "job_position_id" });
 JobExperiences.belongsTo(CurriculaVitaes, { foreignKey: "curricula_vitae_id" });
-JobseekerLanguages.belongsTo(CurriculaVitaes, { foreignKey: "curricula_vitae_id" });
+JobseekerLanguages.belongsTo(CurriculaVitaes, {
+  foreignKey: "curricula_vitae_id",
+});
 JobseekerLanguages.belongsTo(Languages, { foreignKey: "language_id" });
 Jobseekers.belongsTo(Users, { foreignKey: "user_id" });
 JobseekersActivations.belongsTo(Jobseekers, { foreignKey: "jobseeker_id" });

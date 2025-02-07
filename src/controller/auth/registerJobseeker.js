@@ -4,7 +4,14 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const registerJobseeker = async (req, res) => {
-  const { email, password, first_name, last_name, identity_number, birth_date } = req.body;
+  const {
+    email,
+    password,
+    first_name,
+    last_name,
+    identity_number,
+    birth_date,
+  } = req.body;
 
   // Şifreyi hashle
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -25,9 +32,13 @@ const registerJobseeker = async (req, res) => {
   });
 
   // JWT oluştur
-  const token = jwt.sign({ id: user.id, role: "jobseeker" }, process.env.JWT_SECRET, {
-    expiresIn: "1h",
-  });
+  const token = jwt.sign(
+    { id: user.id, role: "jobseeker" },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: "1h",
+    }
+  );
 
   res.json({ token, jobseeker });
 };

@@ -17,8 +17,12 @@ Educations.belongsTo(CurriculaVitaes, { foreignKey: "curricula_vitae_id" });
 CurriculaVitaes.hasMany(JobExperiences, { foreignKey: "curricula_vitae_id" });
 JobExperiences.belongsTo(CurriculaVitaes, { foreignKey: "curricula_vitae_id" });
 
-CurriculaVitaes.hasMany(JobseekerLanguages, { foreignKey: "curricula_vitae_id" });
-JobseekerLanguages.belongsTo(CurriculaVitaes, { foreignKey: "curricula_vitae_id" });
+CurriculaVitaes.hasMany(JobseekerLanguages, {
+  foreignKey: "curricula_vitae_id",
+});
+JobseekerLanguages.belongsTo(CurriculaVitaes, {
+  foreignKey: "curricula_vitae_id",
+});
 
 JobseekerLanguages.belongsTo(Languages, { foreignKey: "language_id" });
 

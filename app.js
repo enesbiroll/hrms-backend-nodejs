@@ -18,7 +18,7 @@ app.listen(PORT, async () => {
     console.log(`App is running on ${PORT}`);
     // db connection
     await sequelize.authenticate();
-    console.log('Db Connection has been established successfully.');
+    console.log("Db Connection has been established successfully.");
   } catch (error) {
     console.log(`Error ${error}`, error.message);
   }

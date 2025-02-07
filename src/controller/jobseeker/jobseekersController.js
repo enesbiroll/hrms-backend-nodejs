@@ -1,5 +1,8 @@
 const jobseekersService = require("../../service/jobseekersService");
-const { sendSuccessResponse, sendErrorResponse } = require("../../core/response/response");
+const {
+  sendSuccessResponse,
+  sendErrorResponse,
+} = require("../../core/response/response");
 
 const getAllJobseekers = async (req, res) => {
   try {
@@ -34,7 +37,10 @@ const createJobseeker = async (req, res) => {
 
 const updateJobseeker = async (req, res) => {
   try {
-    const jobseeker = await jobseekersService.updateJobseeker(req.params.id, req.body);
+    const jobseeker = await jobseekersService.updateJobseeker(
+      req.params.id,
+      req.body
+    );
     if (jobseeker) {
       sendSuccessResponse(res, "Jobseeker updated successfully", jobseeker);
     } else {

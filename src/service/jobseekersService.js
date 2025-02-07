@@ -1,4 +1,12 @@
-const { Jobseekers, CurriculaVitaes, Educations, JobExperiences, JobseekerLanguages, Languages, SocialMedias } = require("../models");
+const {
+  Jobseekers,
+  CurriculaVitaes,
+  Educations,
+  JobExperiences,
+  JobseekerLanguages,
+  Languages,
+  SocialMedias,
+} = require("../models");
 
 const getAllJobseekers = async () => {
   return await Jobseekers.findAll({
