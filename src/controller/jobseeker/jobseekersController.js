@@ -1,11 +1,12 @@
 const jobseekersService = require("../../service/jobseekersService");
+const { sendSuccessResponse, sendErrorResponse } = require("../../core/response/response");
 
 const getAllJobseekers = async (req, res) => {
   try {
     const jobseekers = await jobseekersService.getAllJobseekers();
-    res.json(jobseekers);
+    sendSuccessResponse(res, "Jobseekers fetched successfully", jobseekers);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    sendErrorResponse(res, error.message, 500);
   }
 };
 
@@ -13,21 +14,21 @@ const getJobseekerById = async (req, res) => {
   try {
     const jobseeker = await jobseekersService.getJobseekerById(req.params.id);
     if (jobseeker) {
-      res.json(jobseeker);
+      sendSuccessResponse(res, "Jobseeker fetched successfully", jobseeker);
     } else {
-      res.status(404).json({ message: "Jobseeker not found" });
+      sendErrorResponse(res, "Jobseeker not found", 404);
     }
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    sendErrorResponse(res, error.message, 500);
   }
 };
 
 const createJobseeker = async (req, res) => {
   try {
     const jobseeker = await jobseekersService.createJobseeker(req.body);
-    res.status(201).json(jobseeker);
+    sendSuccessResponse(res, "Jobseeker created successfully", jobseeker);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    sendErrorResponse(res, error.message, 500);
   }
 };
 
@@ -35,12 +36,12 @@ const updateJobseeker = async (req, res) => {
   try {
     const jobseeker = await jobseekersService.updateJobseeker(req.params.id, req.body);
     if (jobseeker) {
-      res.json(jobseeker);
+      sendSuccessResponse(res, "Jobseeker updated successfully", jobseeker);
     } else {
-      res.status(404).json({ message: "Jobseeker not found" });
+      sendErrorResponse(res, "Jobseeker not found", 404);
     }
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    sendErrorResponse(res, error.message, 500);
   }
 };
 
@@ -48,12 +49,12 @@ const deleteJobseeker = async (req, res) => {
   try {
     const jobseeker = await jobseekersService.deleteJobseeker(req.params.id);
     if (jobseeker) {
-      res.json({ message: "Jobseeker deleted" });
+      sendSuccessResponse(res, "Jobseeker deleted successfully");
     } else {
-      res.status(404).json({ message: "Jobseeker not found" });
+      sendErrorResponse(res, "Jobseeker not found", 404);
     }
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    sendErrorResponse(res, error.message, 500);
   }
 };
 
