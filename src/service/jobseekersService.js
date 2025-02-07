@@ -6,6 +6,11 @@ const {
   JobseekerLanguages,
   Languages,
   SocialMedias,
+  Users,
+  Employers,
+  JobAdverts,
+  Departments,
+  Schools,
 } = require("../models");
 
 const getAllJobseekers = async () => {
@@ -14,11 +19,15 @@ const getAllJobseekers = async () => {
       {
         model: CurriculaVitaes,
         include: [
-          { model: Educations },
+          { model: Educations, include: [Departments, Schools] },
           { model: JobExperiences },
           { model: JobseekerLanguages, include: [Languages] },
           { model: SocialMedias },
         ],
+      },
+      {
+        model: Users,
+        attributes: { exclude: ['password'] },
       },
     ],
   });
@@ -30,11 +39,15 @@ const getJobseekerById = async (id) => {
       {
         model: CurriculaVitaes,
         include: [
-          { model: Educations },
+          { model: Educations, include: [Departments, Schools] },
           { model: JobExperiences },
           { model: JobseekerLanguages, include: [Languages] },
           { model: SocialMedias },
         ],
+      },
+      {
+        model: Users,
+        attributes: { exclude: ['password'] },
       },
     ],
   });
@@ -60,10 +73,33 @@ const deleteJobseeker = async (id) => {
   return null;
 };
 
+const getProfile = async (userId) => {
+  const jobseeker = await Jobseekers.findOne({
+    where: { user_id: userId },
+    include: [
+      {
+        model: CurriculaVitaes,
+        include: [
+          { model: Educations, include: [Departments, Schools] },
+          { model: JobExperiences },
+          { model: JobseekerLanguages, include: [Languages] },
+          { model: SocialMedias },
+        ],
+      },
+      {
+        model: Users,
+        attributes: { exclude: ['password'] },
+      },
+    ],
+  });
+  return jobseeker;
+};
+
 module.exports = {
   getAllJobseekers,
   getJobseekerById,
   createJobseeker,
   updateJobseeker,
   deleteJobseeker,
+  getProfile,
 };
