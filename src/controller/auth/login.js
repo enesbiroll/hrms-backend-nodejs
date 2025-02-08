@@ -1,4 +1,4 @@
-const { sendSuccessResponse } = require("../../core/response/response");
+const { sendSuccessResponse,sendErrorResponse } = require("../../core/response/response");
 const  loginService = require("../../service/auth/loginService");
 
 const login = async (req, res) => {

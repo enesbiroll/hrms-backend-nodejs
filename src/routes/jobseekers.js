@@ -8,7 +8,7 @@ router.get("/", jobseekersController.getAllJobseekers);
 router.get("/:id", jobseekersController.getJobseekerById);
 router.post("/", checkDuplicateEmail, jobseekersController.createJobseeker);
 router.put("/:id", authenticateToken, jobseekersController.updateJobseeker);
-router.delete("/:id", authenticateToken, jobseekersController.deleteJobseeker);
+router.delete("/:id",  jobseekersController.deleteJobseeker);
 router.get("/profile", authenticateToken, jobseekersController.getProfile);
 
 module.exports = router;

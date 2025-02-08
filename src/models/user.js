@@ -27,6 +27,9 @@ const Users = sequelize.define("Users", {
   banned: {
     type: DataTypes.BOOLEAN,
   },
+  isDeleted: {
+    type: DataTypes.BOOLEAN,
+  },
 }, {
   tableName: "users",
   timestamps: false,

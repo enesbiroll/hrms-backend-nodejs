@@ -22,6 +22,10 @@ const Jobseekers = sequelize.define("Jobseekers", {
     type: DataTypes.DATE,
     allowNull: false,
   },
+  race: {
+    type: DataTypes.STRING(100),
+    allowNull: false,
+  }
 }, {
   tableName: "jobseekers",
   timestamps: false,

@@ -66,9 +66,10 @@ const updateJobseeker = async (id, jobseekerData) => {
 };
 
 const deleteJobseeker = async (id) => {
-  const jobseeker = await Jobseekers.findByPk(id);
+  const jobseeker = await Users.findByPk(id);
   if (jobseeker) {
-    return await jobseeker.destroy();
+    // İş arayanı isDeleted olarak işaretle
+    return await jobseeker.update({ isDeleted: true });
   }
   return null;
 };

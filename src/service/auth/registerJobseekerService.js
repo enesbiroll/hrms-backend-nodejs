@@ -1,10 +1,24 @@
-// services/jobseekerService.js
 const Users = require("../../models/user");
 const Jobseekers = require("../../models/jobseeker");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { turkishValidator } = require("../../core/validations/soap/soapValidator");
 
-const registerJobseeker = async (email, password, first_name, last_name, identity_number, birth_date) => {
+const registerJobseeker = async (email, password, first_name, last_name, identity_number, birth_date, race) => {
+  let isActive = true;
+  let message = "Registration successful.";
+
+  if (race !== "tr") {
+    isActive = false;
+    message = "Registration successful. Your membership will be reviewed by admins.";
+  } else {
+    // Türk kimlik doğrulaması
+    const isValidTurkish = await turkishValidator(identity_number, first_name, last_name, birth_date);
+    if (!isValidTurkish) {
+      throw new Error("You're not a valid Turkish person");
+    }
+  }
+
   // Şifreyi hashle
   if (!password) {
     throw new Error("Password is required");
@@ -15,6 +29,7 @@ const registerJobseeker = async (email, password, first_name, last_name, identit
   const user = await Users.create({
     email,
     password: hashedPassword,
+    isActive: isActive,
   });
 
   // Yeni iş arayan oluştur
@@ -24,6 +39,7 @@ const registerJobseeker = async (email, password, first_name, last_name, identit
     last_name,
     identity_number,
     birth_date,
+    race, // race alanını ekleyin
   });
 
   // JWT oluştur
@@ -31,7 +47,7 @@ const registerJobseeker = async (email, password, first_name, last_name, identit
     expiresIn: "1h",
   });
 
-  return { token, jobseeker };
+  return { token, jobseeker, message };
 };
 
 module.exports = { registerJobseeker };

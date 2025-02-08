@@ -45,8 +45,6 @@ const updateJobseeker = async (req, res) => {
   }
 };
 
-
-
 const deleteJobseeker = async (req, res) => {
   try {
     const jobseeker = await jobseekersService.deleteJobseeker(req.params.id);
@@ -72,6 +70,7 @@ const getProfile = async (req, res) => {
     sendErrorResponse(res, error.message, 500);
   }
 };
+
 const getJobseekerProfile = async (req, res) => {
   try {
     const profile = await jobseekersService.getProfile(req.user.id);
