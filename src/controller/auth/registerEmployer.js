@@ -2,11 +2,22 @@ const Users = require("../../models/user");
 const Employers = require("../../models/employer");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { body, validationResult } = require("express-validator");
 
 const registerEmployer = async (req, res) => {
   const { email, password, company_name, website, phone_number } = req.body;
 
   try {
+    // Email doğrulaması
+    const existingUser = await Users.findOne({ where: { email } });
+    if (body(email).isEmail().not()) {
+      return res.status(400).json({ message: "Please enter a valid email address" });
+    }
+    if (existingUser) {
+      return res.status(400).json({ message: "Email already in use" });
+    }
+    
+
     // Şifreyi hashle
     if (!password) {
       return res.status(400).json({ message: "Password is required" });

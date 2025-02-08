@@ -12,7 +12,7 @@ const Users = sequelize.define("Users", {
     allowNull: false,
   },
   password: {
-    type: DataTypes.STRING(25),
+    type: DataTypes.STRING(250),
     allowNull: false,
   },
   isActive: {
