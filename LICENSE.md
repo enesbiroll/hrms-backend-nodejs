@@ -1,10 +1,10 @@
-# Copyright (C) [2025] [Enes]
+# Copyright (C) [2025] [Enes BİROL]
 
 This work may not be copied, modified, or distributed without the express permission of the copyright holder.
 
 ## License
 
-This project is protected by copyright, [Year] [Name]. All rights reserved. Permission must be obtained in writing before using, copying, or modifying this project.
+This project is protected by copyright, [2025] [ENES BİROL]. All rights reserved. Permission must be obtained in writing before using, copying, or modifying this project.
 
 ## MIT License
 
