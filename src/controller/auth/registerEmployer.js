@@ -3,7 +3,6 @@ const { registerEmployerService } = require("../../service/auth/registerEmployer
 
 const registerEmployer = async (req, res) => {
   const { email, password, company_name, website, phone_number } = req.body;
-
   try {
     const { token, employer } = await registerEmployerService(
       email,
@@ -12,12 +11,10 @@ const registerEmployer = async (req, res) => {
       website,
       phone_number
     );
-
     sendSuccessResponse(res, "Employer created successfully", { token, employer });
   } catch (error) {
-    if (!res.headersSent) {
-      sendErrorResponse(res, error.message, "", 500);
-    }
+    console.error("Registration Error:", error);
+    sendErrorResponse(res, error.message, 400); // Bad Request error if something fails
   }
 };
 

@@ -1,3 +1,4 @@
+//#dbConnect.js
 const { Sequelize } = require("sequelize");
 const config = require("./database")[process.env.NODE_ENV || "development"];
 

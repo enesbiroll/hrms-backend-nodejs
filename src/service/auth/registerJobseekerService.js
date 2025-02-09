@@ -1,28 +1,40 @@
-const Users = require("../../models/user");
-const Jobseekers = require("../../models/jobseeker");
+const Users = require("../../models/Users");
+const Jobseekers = require("../../models/Jobseekers");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { turkishValidator } = require("../../core/validations/soap/soapValidator");
+const { turkishValidator } = require("../../core/validations/soap/soapValidator"); // Turkish validator'ı dahil ettik
 
-const registerJobseeker = async (email, password, first_name, last_name, identity_number, birth_date, race) => {
+const registerJobseeker = async (
+  email,
+  password,
+  first_name,
+  last_name,
+  identity_number,
+  birth_date,
+  race
+) => {
+  let message = "User created successfully";
   let isActive = true;
-  let message = "Registration successful.";
 
-  if (race !== "tr") {
-    isActive = false;
-    message = "Registration successful. Your membership will be reviewed by admins.";
-  } else {
-    // Türk kimlik doğrulaması
+  // E-posta kontrolü
+  const existingUser = await Users.findOne({ where: { email } });
+  if (existingUser) {
+    throw new Error("Email already in use");
+  }
+
+  // Eğer kullanıcı Türkse, kimlik doğrulamasını yap
+  if (race === "tr") {
     const isValidTurkish = await turkishValidator(identity_number, first_name, last_name, birth_date);
     if (!isValidTurkish) {
       throw new Error("You're not a valid Turkish person");
     }
+  } else {
+    // Eğer kullanıcı yabancıysa, admin onay mesajı göster
+    message = "Registration successful. Your membership will be reviewed by admins.";
+    isActive = false;  // Yabancı kullanıcılar için aktiflik durumu false
   }
 
   // Şifreyi hashle
-  if (!password) {
-    throw new Error("Password is required");
-  }
   const hashedPassword = await bcrypt.hash(password, 10);
 
   // Yeni kullanıcı oluştur
@@ -39,7 +51,7 @@ const registerJobseeker = async (email, password, first_name, last_name, identit
     last_name,
     identity_number,
     birth_date,
-    race, // race alanını ekleyin
+    race,
   });
 
   // JWT oluştur

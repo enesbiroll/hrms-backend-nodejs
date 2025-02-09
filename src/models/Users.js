@@ -10,6 +10,7 @@ const Users = sequelize.define("Users", {
   email: {
     type: DataTypes.STRING(320),
     allowNull: false,
+    unique: true,  // Email'in benzersiz olmasını sağlamak
   },
   password: {
     type: DataTypes.STRING(250),
@@ -17,22 +18,27 @@ const Users = sequelize.define("Users", {
   },
   isActive: {
     type: DataTypes.BOOLEAN,
+    defaultValue: true,  // Varsayılan değer olarak true, yani kullanıcı aktif olacak
   },
   createdDate: {
     type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW,  // Varsayılan değer olarak şu anki tarih saat
   },
   updatedDate: {
     type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW,  // Varsayılan değer olarak şu anki tarih saat
   },
   banned: {
     type: DataTypes.BOOLEAN,
+    defaultValue: false,  // Varsayılan değer olarak false, yani kullanıcı yasaklanmamış
   },
   isDeleted: {
     type: DataTypes.BOOLEAN,
+    defaultValue: false,  // Varsayılan değer olarak false, yani kullanıcı silinmemiş
   },
 }, {
   tableName: "users",
-  timestamps: false,
+  timestamps: false,  // Timestamp'ların otomatik olarak oluşturulmasını istemiyoruz
 });
 
 module.exports = Users;

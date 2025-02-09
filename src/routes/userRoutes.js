@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const authenticateToken = require("../middlewares/authenticateToken");
-const jobseekerController = require("../controller/jobseeker/jobseekersController");
+const jobseekerController = require("../controller/jobseeker/jobseekerController");
 const employerController = require("../controller/employer/employerController");
 
 router.get("/profile", authenticateToken, (req, res) => {

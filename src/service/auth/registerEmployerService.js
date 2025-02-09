@@ -1,5 +1,5 @@
-const Users = require("../../models/user");
-const Employers = require("../../models/employer");
+const Users = require("../../models/Users");
+const Employers = require("../../models//Employers");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -15,8 +15,9 @@ const registerEmployerService = async (
   if (existingUser) {
     throw new Error("Email already in use");
   }
-  // Email validation
-  if (!email || !email.includes("@")) {
+
+  // Email validation with regex
+  if (!email || !/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(email)) {
     throw new Error("Please enter a valid email address");
   }
 
@@ -40,13 +41,11 @@ const registerEmployerService = async (
     phone_number,
   });
 
-  // Create JWT
+  // Create JWT token with dynamic expiration time
   const token = jwt.sign(
     { id: user.id, role: "employer" },
     process.env.JWT_SECRET,
-    {
-      expiresIn: "1h",
-    }
+    { expiresIn: "1h" }
   );
 
   return { token, employer };

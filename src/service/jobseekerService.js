@@ -11,6 +11,7 @@ const {
   JobAdverts,
   Departments,
   Schools,
+  Applications,  // Applications modelini dahil ettik
 } = require("../models");
 
 const getAllJobseekers = async () => {
@@ -28,6 +29,10 @@ const getAllJobseekers = async () => {
       {
         model: Users,
         attributes: { exclude: ['password'] },
+      },
+      {
+        model: Applications,  // Jobseeker'lara ait başvuruları dahil ettik
+        include: [JobAdverts], // JobAdverts ile ilişkiyi de dahil ettik
       },
     ],
   });
@@ -49,6 +54,10 @@ const getJobseekerById = async (id) => {
         model: Users,
         attributes: { exclude: ['password'] },
       },
+      {
+        model: Applications,  // Jobseeker'ların başvuruları
+        include: [JobAdverts],  // JobAdverts ile ilişkili başvuruları da dahil ettik
+      },
     ],
   });
 };
@@ -66,14 +75,29 @@ const updateJobseeker = async (id, jobseekerData) => {
 };
 
 const deleteJobseeker = async (id) => {
-  const jobseeker = await Users.findByPk(id);
-  if (jobseeker) {
-    // İş arayanı isDeleted olarak işaretle
-    return await jobseeker.update({ isDeleted: true });
-  }
-  return null;
-};
+  const jobseeker = await Jobseekers.findByPk(id, {
+    include: [
+      Applications,        // Bağlı Applications'ı da içerecek şekilde silme işlemi yapılacak
+      CurriculaVitaes,    // Bağlı CurriculaVitaes verileri de silinecek
+      JobExperiences,      // Bağlı JobExperiences verileri de silinecek
+      JobseekerLanguages   // Bağlı JobseekerLanguages verileri de silinecek
+    ]
+  });
 
+  if (jobseeker) {
+    // Cascade delete sayesinde bağlı veriler de otomatik olarak silinir
+    await jobseeker.destroy();
+
+    // Kullanıcıyı (Users) da sil
+    const user = await Users.findByPk(jobseeker.user_id);
+    if (user) {
+      await user.destroy();  // Users kaydını sil
+    }
+
+    return true;
+  }
+  return false;
+};
 const getProfile = async (userId) => {
   const jobseeker = await Jobseekers.findOne({
     where: { user_id: userId },
@@ -91,11 +115,14 @@ const getProfile = async (userId) => {
         model: Users,
         attributes: { exclude: ['password'] },
       },
+      {
+        model: Applications,  // Jobseeker'ların başvuruları
+        include: [JobAdverts],  // JobAdverts ile ilişkili başvuruları da dahil ettik
+      },
     ],
   });
   return jobseeker;
 };
-
 module.exports = {
   getAllJobseekers,
   getJobseekerById,
