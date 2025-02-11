@@ -8,5 +8,5 @@ router.get("/:id", jobAdvertsController.getJobAdvertById);     // ID ile iş ila
 router.put("/:id", jobAdvertsController.updateJobAdvert);      // İş ilanını güncelle
 router.delete("/:id", jobAdvertsController.deleteJobAdvert);  // İş ilanını sil
 router.get("/", jobAdvertsController.getAllJobAdverts);        // Tüm iş ilanlarını al
-
+router.get("/clear-cache", jobAdvertsController.clearCache);
 module.exports = router;

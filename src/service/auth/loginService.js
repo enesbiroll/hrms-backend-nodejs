@@ -2,6 +2,7 @@ const Users = require("../../models/Users");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+
 const login = async (email, password) => {
   const user = await Users.findOne({ where: { email } });
 

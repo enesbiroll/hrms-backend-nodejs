@@ -13,6 +13,16 @@ const createJobAdvert = async (req, res) => {
   }
 };
 
+// Redis Cache'i temizle
+const clearCache = async (req, res) => {
+  try {
+      await jobAdvertsService.clearCache();
+      sendSuccessResponse(res, "Cache temizlendi!", null);
+  } catch (error) {
+      sendErrorResponse(res, error.message, 500);
+  }
+};
+
 const getJobAdvertById = async (req, res) => {
   const { id } = req.params;
   try {
@@ -81,4 +91,5 @@ module.exports = {
   updateJobAdvert,
   deleteJobAdvert,
   getAllJobAdverts,
+  clearCache
 };
