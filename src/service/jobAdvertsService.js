@@ -54,11 +54,12 @@ class JobAdvertsService {
           { model: Cities },
           { model: JobPositions }
         ],
-        limit,
-        offset
+        limit: parseInt(limit, 10),
+        offset: parseInt(offset, 10)
       });
       return { count, rows, page, limit };
     }
 }
+
 
 module.exports = new JobAdvertsService();

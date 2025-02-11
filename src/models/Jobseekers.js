@@ -39,6 +39,12 @@ const Jobseekers = sequelize.define("Jobseekers", {
 }, {
   tableName: "jobseekers",
   timestamps: false,
+  indexes: [
+    {
+      unique: true,
+      fields: ['identity_number']
+    }
+  ]
 });
 
 // Cascade delete: Jobseekers ile ilişkili tüm modellerde veriler silinsin

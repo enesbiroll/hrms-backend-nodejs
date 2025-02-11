@@ -5,7 +5,7 @@ const authenticateToken = require("../middlewares/authenticateToken");
 
 
 // Employers API route'ları
-router.get("/",authenticateToken, employerController.getAllEmployers);          // Tüm işverenleri al
+router.get("/", employerController.getAllEmployers);          // Tüm işverenleri al
 router.get("/:id", employerController.getEmployerById);       // Bir işvereni ID ile al
 router.post("/", employerController.createEmployer);          // Yeni işveren oluştur
 router.put("/:id", employerController.updateEmployer);        // İşvereni güncelle

@@ -27,8 +27,8 @@ const pageDataSuccessResponse = (res, message, data = {}, page, limit, total, st
       limit,
       total,
       totalPages,
-      next: page < totalPages ? `${websiteUrl}/jobadverts?page=${page + 1}&limit=${limit}` : null,
-      prev: page > 1 ? `${websiteUrl}/jobadverts?page=${page - 1}&limit=${limit}` : null,
+      next: page < totalPages ? `${websiteUrl}/api/v1/jobadverts?page=${page + 1}&limit=${limit}` : null,
+      prev: page > 1 ? `${websiteUrl}/api/v1/jobadverts?page=${page - 1}&limit=${limit}` : null,
     },
   });
 };

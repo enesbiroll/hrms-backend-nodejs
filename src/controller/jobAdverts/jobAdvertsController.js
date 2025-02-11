@@ -1,5 +1,6 @@
 const jobAdvertsService = require("../../service/jobAdvertsService");
 const { sendSuccessResponse, sendErrorResponse } = require("../../core/response/response");
+const { pageDataSuccessResponse } = require("../../core/response/response");
 
 const createJobAdvert = async (req, res) => {
   try {
@@ -56,10 +57,18 @@ const deleteJobAdvert = async (req, res) => {
 };
 
 const getAllJobAdverts = async (req, res) => {
-  const { filters, page, limit } = req.query;
+  const filters = req.query.filters ? JSON.parse(req.query.filters) : {};
+  const page = parseInt(req.query.page, 10) || 1;
+  const limit = parseInt(req.query.limit, 10) || 10;
+
   try {
     const { count, rows } = await jobAdvertsService.getAllJobAdverts(filters, page, limit);
-    sendSuccessResponse(res, "Job Adverts retrieved successfully", { count, rows, page, limit });
+    const totalPages = Math.ceil(count / limit);
+
+    const nextPage = page < totalPages ? `http://localhost:8000/jobAdverts?page=${page + 1}&limit=${limit}` : null;
+    const prevPage = page > 1 ? `http://localhost:8000/jobAdverts?page=${page - 1}&limit=${limit}` : null;
+
+    pageDataSuccessResponse(res, "Job Adverts retrieved successfully", rows, page, limit, count);
   } catch (error) {
     console.error("Error retrieving Job Adverts:", error);
     sendErrorResponse(res, error.message, 500); // Internal Server Error

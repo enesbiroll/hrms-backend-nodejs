@@ -1,5 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/dbConnect");
+const Employers = require("./Employers"); // Ensure correct import
 
 const JobAdverts = sequelize.define("JobAdverts", {
   id: {
@@ -68,9 +69,23 @@ const JobAdverts = sequelize.define("JobAdverts", {
     type: DataTypes.BOOLEAN,
     allowNull: false,
   },
+  isPopular: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: false,
+  },
+  isActive: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: true,
+  },
 }, {
   tableName: "job_adverts",
   timestamps: false,
 });
+
+// Define associations
+Employers.hasMany(JobAdverts, { foreignKey: "employer_id" });
+JobAdverts.belongsTo(Employers, { foreignKey: "employer_id" });
 
 module.exports = JobAdverts;

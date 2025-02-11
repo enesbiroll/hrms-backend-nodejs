@@ -22,7 +22,7 @@ const getEmployerById = async (req, res) => {
     sendSuccessResponse(res, "Employer retrieved successfully", employer);
   } catch (error) {
     console.error(error);
-    sendErrorResponse(res, error.message, 500);
+    sendErrorResponse(res, "Server error", 500);
   }
 };
 

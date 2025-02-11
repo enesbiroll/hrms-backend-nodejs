@@ -2,6 +2,7 @@ const {
   Employers,
   Users,
   JobAdverts,
+  EmployersActivations
 } = require("../models");
 
 const getAllEmployers = async () => {
@@ -45,11 +46,39 @@ const updateEmployer = async (id, employerData) => {
 };
 
 const deleteEmployer = async (id) => {
-  const employer = await Employers.findByPk(id);
+  const employer = await Employers.findByPk(id, {
+    include: [
+      JobAdverts,            // Related JobAdverts to be deleted
+      EmployersActivations,  // Related EmployersActivations to be deleted
+    ],
+  });
+
   if (employer) {
-    return await employer.destroy();
+    // Delete related job adverts
+    await JobAdverts.destroy({
+      where: { employer_id: id },
+    });
+
+    // Delete related employer activations
+    await EmployersActivations.destroy({
+      where: { employer_id: id },
+    });
+
+    // Delete the employer record itself
+    await employer.destroy();
+
+    // Get and delete the associated user
+    const user = await Users.findByPk(employer.user_id);
+    if (user) {
+      await user.destroy();  // Delete the associated user record
+    }
+
+    console.log(`Employer and associated user with ID ${id} deleted successfully along with related data.`);
+    return true;
+  } else {
+    console.log(`Employer with ID ${id} not found.`);
+    return false;
   }
-  return null;
 };
 
 const getProfile = async (userId) => {

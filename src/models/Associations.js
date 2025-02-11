@@ -16,27 +16,23 @@ const EmployersActivations = require("./EmployersActivations");
 const JobseekerLanguages = require("./JobseekerLanguages");
 const Technologies = require("./Technologies");
 const SystemPersonels = require("./SystemPersonels");
-const JobseekersActivations = require("./JobseekersActivations"); 
-const Employer = require("./Employers");
+const JobseekersActivations = require("./JobseekersActivations");
 
 // Users ve Jobseekers arasında ilişki (Cascade delete)
 Users.hasOne(Jobseekers, { foreignKey: "user_id", onDelete: 'CASCADE' });
 Jobseekers.belongsTo(Users, { foreignKey: "user_id" });
 
-Users.hasOne(Employer, { foreignKey: "user_id" });  // User ile Employer arasında ilişki
-Employer.belongsTo(Users, { foreignKey: "user_id" });
+// Users ve Employers arasında ilişki
+Users.hasOne(Employers, { foreignKey: "user_id" });
+Employers.belongsTo(Users, { foreignKey: "user_id" });
 
-// Jobseekers ve Applications arasında ilişki kurma (Cascade delete)
+// Employers ve JobAdverts arasında ilişki
+Employers.hasMany(JobAdverts, { foreignKey: "employer_id" });
+JobAdverts.belongsTo(Employers, { foreignKey: "employer_id" });
+
+// Jobseekers ve Applications arasında ilişki (Cascade delete)
 Jobseekers.hasMany(Applications, { foreignKey: "jobseeker_id", onDelete: 'CASCADE' });
 Applications.belongsTo(Jobseekers, { foreignKey: "jobseeker_id" });
-
-// Users ve Jobseekers arasında ilişki
-Users.hasOne(Jobseekers, { foreignKey: "user_id" });
-Jobseekers.belongsTo(Users, { foreignKey: "user_id" });
-
-// Applications ve Jobseekers arasında ilişki
-Applications.belongsTo(Jobseekers, { foreignKey: "jobseeker_id" });
-Jobseekers.hasMany(Applications, { foreignKey: "jobseeker_id" });
 
 // Applications ve JobAdverts arasında ilişki
 Applications.belongsTo(JobAdverts, { foreignKey: "job_advert_id" });
@@ -45,10 +41,6 @@ JobAdverts.hasMany(Applications, { foreignKey: "job_advert_id" });
 // JobAdverts ve Cities arasında ilişki
 JobAdverts.belongsTo(Cities, { foreignKey: "city_id" });
 Cities.hasMany(JobAdverts, { foreignKey: "city_id" });
-
-// JobAdverts ve Employers arasında ilişki
-JobAdverts.belongsTo(Employers, { foreignKey: "employer_id" });
-Employers.hasMany(JobAdverts, { foreignKey: "employer_id" });
 
 // JobAdverts ve JobPositions arasında ilişki
 JobAdverts.belongsTo(JobPositions, { foreignKey: "job_position_id" });
@@ -98,10 +90,6 @@ Technologies.belongsTo(CurriculaVitaes, { foreignKey: "curricula_vitae_id" });
 Jobseekers.hasOne(JobseekersActivations, { foreignKey: "jobseeker_id" });
 JobseekersActivations.belongsTo(Jobseekers, { foreignKey: "jobseeker_id" });
 
-// İlişkiler
-Jobseekers.hasOne(JobseekersActivations, { foreignKey: "jobseeker_id" });
-JobseekersActivations.belongsTo(Jobseekers, { foreignKey: "jobseeker_id" });
-
 // SystemPersonels ve Users arasında ilişki
 SystemPersonels.belongsTo(Users, { foreignKey: "user_id" });
 Users.hasOne(SystemPersonels, { foreignKey: "user_id" });
@@ -125,4 +113,5 @@ module.exports = {
   JobseekerLanguages,
   Technologies,
   SystemPersonels,
+  JobseekersActivations,
 };
