@@ -16,7 +16,7 @@ const Users = sequelize.define("Users", {
     type: DataTypes.STRING(250),
     allowNull: false,
   },
-  isActive: {
+  is_active: {
     type: DataTypes.BOOLEAN,
     defaultValue: true,  // Varsayılan değer olarak true, yani kullanıcı aktif olacak
   },

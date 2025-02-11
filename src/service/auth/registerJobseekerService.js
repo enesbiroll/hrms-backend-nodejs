@@ -14,7 +14,7 @@ const registerJobseeker = async (
   race
 ) => {
   let message = "User created successfully";
-  let isActive = true;
+  let is_active = true;
 
   // E-posta kontrolü
   const existingUser = await Users.findOne({ where: { email } });
@@ -31,7 +31,7 @@ const registerJobseeker = async (
   } else {
     // Eğer kullanıcı yabancıysa, admin onay mesajı göster
     message = "Registration successful. Your membership will be reviewed by admins.";
-    isActive = false;  // Yabancı kullanıcılar için aktiflik durumu false
+    is_active = false;  // Yabancı kullanıcılar için aktiflik durumu false
   }
 
   // Şifreyi hashle
@@ -41,7 +41,7 @@ const registerJobseeker = async (
   const user = await Users.create({
     email,
     password: hashedPassword,
-    isActive: isActive,
+    is_active: is_active,
   });
 
   // Yeni iş arayan oluştur

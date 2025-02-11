@@ -26,7 +26,7 @@ const Employers = sequelize.define("Employers", {
   picture_url: {
     type: DataTypes.STRING(100),
   },
-  isActive: {
+  is_active: {
     type: DataTypes.BOOLEAN,
     defaultValue: true,
   },

@@ -12,7 +12,7 @@ const SystemPersonels = sequelize.define(
       type: DataTypes.STRING(35),
       allowNull: false,
     },
-    isActive: {
+    is_active: {
       type: DataTypes.BOOLEAN,
     },
     createdDate: {

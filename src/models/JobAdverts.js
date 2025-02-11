@@ -69,12 +69,12 @@ const JobAdverts = sequelize.define("JobAdverts", {
     type: DataTypes.BOOLEAN,
     allowNull: false,
   },
-  isPopular: {
+  is_popular: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
     defaultValue: false,
   },
-  isActive: {
+  is_active: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
     defaultValue: true,

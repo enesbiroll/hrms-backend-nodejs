@@ -11,7 +11,7 @@ const Cities = sequelize.define("Cities", {
     type: DataTypes.STRING(25),
     allowNull: false,
   },
-  isActive: {
+  is_active: {
     type: DataTypes.BOOLEAN,
     defaultValue: true,
   },
